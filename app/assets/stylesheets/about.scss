@@ -1,0 +1,101 @@
+.about{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.abouttitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    margin:20px;
+}
+
+
+.aboutcontent1{
+    background-color: rgb(223, 221, 221);
+    padding: 35px 2% 50px 2%;
+    margin: 15px 0px 60px 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.abouttext1{
+    width: 46%;
+}
+
+.texttitle{
+    margin: 15px;
+}
+
+.aboutimage1{
+    width:38%;
+    border-radius: 4%;
+}
+
+.marker{
+    background-position: left -100% center;
+    padding-bottom: 0.6em;
+    font-weight: bold;
+    background-size: 200% 0.6em;
+    background-repeat: repeat-x;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 50%, rgb(251, 165, 108) 50%);
+}
+
+.aboutcontent2{
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+    margin-bottom: 50px;
+}
+
+.feature1{
+    width: 30%;
+    background-image:url("feature1.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 20px;
+    background-color:rgba(255,255,255,0.1);
+    background-blend-mode:lighten;
+}
+
+.feature2{
+    width:30%;
+    background-image:url("feature2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 20px;
+    background-color:rgba(255,255,255,0.6);
+    background-blend-mode:lighten;
+}
+
+.feature3{
+    width:30%;
+    background-image:url("feature3.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    padding: 20px;
+    background-color:rgba(255,255,255,0.5);
+    background-blend-mode:lighten;
+}
+
+.toplink{
+    font-weight: bold;
+    color: #ff8528;
+    font-size:25px;
+    display: inline-block;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, rgba(255, 133, 40, 1) 50%);
+    background-position: 0 0;
+    background-size: 200% auto;
+    transition: .4s;
+    width: 540px;
+}
+
+.toplink:hover{
+    background-position: -100% 0;
+    color: #fff;
+}

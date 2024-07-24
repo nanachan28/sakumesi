@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag 'index', :media => "all" %>
+
+<div class="keyvisual">
+    <h1 class="maintext">「いま食べたい」を、見つけよう。</h1>
+    <h2 class="subtext">サクッと飲食店探し。「さくめし」</h2>
+    <div class="keyvisual_inner">
+        <div class="keyvisual_block">
+            <% @forkeyvisual.limit(8).each do |keyvisual| %>
+                <div class="keyvisual_item"><%= image_tag keyvisual.image_url, size: "500x400" if keyvisual.image? %></div>
+            <% end %>
+            <% @forkeyvisual.limit(8).each do |keyvisual| %>
+                <div class="keyvisual_item"><%= image_tag keyvisual.image_url, size: "500x400" if keyvisual.image? %></div>
+            <% end %>
+        </div>
+    </div>
+</div>
+
+
+<p class="firstvisitor">☆初めての方はまず<%= link_to "こちら", restaurants_about_path %>をチェック！☆</p>
+
+

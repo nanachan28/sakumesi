@@ -1,0 +1,280 @@
+<%= stylesheet_link_tag 'search', :media => "all" %>
+
+<h1 class="searchtitle">検索結果</h1>
+<% unless user_signed_in? %>
+<p class="indicate"><i class="fa-solid fa-circle-exclamation" style="color:orange;"></i> ブックマーク・コメント機能を使うには<b><%= link_to "ログイン", new_user_session_path %></b>してください。</p>
+<% end %>
+<div class="searchresult">
+<% @results.each do |restaurant| %>
+<% if restaurant.opentime.to_s(:time) <= @current_time && restaurant.endtime.to_s(:time) >= @current_time %>
+  <ul class="restaurantlistu">
+  <li class="restaurantlisti">
+    <%= image_tag restaurant.image_url, size: "150x120" if restaurant.image? %>
+    <div class="texts">
+    <%= link_to restaurant.name, restaurant_path(restaurant.id), class: "restaurantname" %>
+    <% if user_signed_in? && current_user.status == "false" %>
+    <% if current_user.already_bookmarked?(restaurant) %>
+        <%= link_to restaurant_bookmark_path(id: restaurant.id, restaurant_id: restaurant.id), method: :delete do %>
+            <i class="fa-solid fa-star size" style="color:#FAE013;"></i>
+        <% end %>
+    <% else %>
+        <%= link_to restaurant_bookmarks_path(id: restaurant.id, restaurant_id: restaurant.id), method: :post do %>
+            <i class="fa-solid fa-star size" style="color:#cecece;"></i>
+        <% end %>
+    <% end %>
+  <% end %><br>
+  <%= restaurant.about %>
+  <div class="restauranttaglist">
+  <% @restaurant_tags[restaurant.id].each do |tag| %>
+    <span class="restauranttag">#<%= tag.name %></span>
+  <% end %>
+  </div>
+  </div>
+</li>
+  </ul>
+<% end %>
+<% end %>
+</div>
+
+<h3>検索条件変更</h3>
+<%= search_form_for @q, url: search_restaurants_path, id: "searchForm", class:'searchfield' do |f| %>
+<div class="freeword">
+  <%= f.label :name_or_about_or_genre_cont_all, "フリーワードで検索　" %>
+  <%= f.search_field :name_or_about_or_genre_cont_all , :size => 110, style: "border: 1.5px solid #2c2c2c; border-radius: 3px;margin-left:10px" %>
+</div>
+  <br>
+  <div class="tag">
+  <%= f.label :tag_ids, "　　　 タグで検索 　", class: "taglabel" %>
+  <div class="tagcontent">
+  <p class="taggenre">お店の特徴</p>
+  <ul class="taglistu" style="background-color:#FFEBEB;border-radius:5px">
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 1, params.dig(:q, :tag_ids_in)&.include?(1) %>
+        #<%= @tag[0]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 2, params.dig(:q, :tag_ids_in)&.include?(2) %>
+        #<%= @tag[1]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 3, params.dig(:q, :tag_ids_in)&.include?(3) %>
+        #<%= @tag[2]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 16, params.dig(:q, :tag_ids_in)&.include?(16) %>
+        #<%= @tag[15]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 20, params.dig(:q, :tag_ids_in)&.include?(20) %>
+        #<%= @tag[19]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 21, params.dig(:q, :tag_ids_in)&.include?(21) %>
+        #<%= @tag[20]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 41, params.dig(:q, :tag_ids_in)&.include?(41) %>
+        #<%= @tag[40]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 43, params.dig(:q, :tag_ids_in)&.include?(43) %>
+        #<%= @tag[42]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 42, params.dig(:q, :tag_ids_in)&.include?(42) %>
+        #<%= @tag[41]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 39, params.dig(:q, :tag_ids_in)&.include?(39) %>
+        #<%= @tag[38]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 40, params.dig(:q, :tag_ids_in)&.include?(40) %>
+        #<%= @tag[39]['name'] %>
+        </li>
+    </ul>
+    <p class="taggenre">シーン</p>
+    <ul class="taglistu" style="background-color:#E5FEFF;border-radius:5px">
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 4, params.dig(:q, :tag_ids_in)&.include?(4) %>
+        #<%= @tag[3]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 5, params.dig(:q, :tag_ids_in)&.include?(5) %>
+        #<%= @tag[4]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 6, params.dig(:q, :tag_ids_in)&.include?(6) %>
+        #<%= @tag[5]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 7, params.dig(:q, :tag_ids_in)&.include?(7) %>
+        #<%= @tag[6]['name'] %>
+        </li>
+    </ul>
+    <p class="taggenre">気分</p>
+    <ul class="taglistu" style="background-color:#FFFEC0;border-radius:5px">
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 8, params.dig(:q, :tag_ids_in)&.include?(8) %>
+        #<%= @tag[7]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 9, params.dig(:q, :tag_ids_in)&.include?(9) %>
+        #<%= @tag[8]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 10, params.dig(:q, :tag_ids_in)&.include?(10) %>
+        #<%= @tag[9]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 11, params.dig(:q, :tag_ids_in)&.include?(11) %>
+        #<%= @tag[10]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 12, params.dig(:q, :tag_ids_in)&.include?(12) %>
+        #<%= @tag[11]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 13, params.dig(:q, :tag_ids_in)&.include?(13) %>
+        #<%= @tag[12]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 15, params.dig(:q, :tag_ids_in)&.include?(15) %>
+        #<%= @tag[14]['name'] %>
+        </li>
+    </ul>
+    <p class="taggenre">価格帯</p>
+    <ul class="taglistu" style="background-color:#E4FFE9;border-radius:5px">
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 17, params.dig(:q, :tag_ids_in)&.include?(17) %>
+        #<%= @tag[16]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 18, params.dig(:q, :tag_ids_in)&.include?(18) %>
+        #<%= @tag[17]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 19, params.dig(:q, :tag_ids_in)&.include?(19) %>
+        #<%= @tag[18]['name'] %>
+        </li>
+    </ul>
+    <p class="taggenre">ジャンル</p>
+    <ul class="taglistu" style="background-color:#E7E4FF;border-radius:5px">
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 22, params.dig(:q, :tag_ids_in)&.include?(22) %>
+        #<%= @tag[21]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 23, params.dig(:q, :tag_ids_in)&.include?(23) %>
+        #<%= @tag[22]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 24, params.dig(:q, :tag_ids_in)&.include?(24) %>
+        #<%= @tag[23]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 25, params.dig(:q, :tag_ids_in)&.include?(25) %>
+        #<%= @tag[24]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 26, params.dig(:q, :tag_ids_in)&.include?(26) %>
+        #<%= @tag[25]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 27, params.dig(:q, :tag_ids_in)&.include?(27) %>
+        #<%= @tag[26]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 28, params.dig(:q, :tag_ids_in)&.include?(28) %>
+        #<%= @tag[27]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 29, params.dig(:q, :tag_ids_in)&.include?(29) %>
+        #<%= @tag[28]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 30, params.dig(:q, :tag_ids_in)&.include?(30) %>
+        #<%= @tag[29]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 31, params.dig(:q, :tag_ids_in)&.include?(31) %>
+        #<%= @tag[30]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 32, params.dig(:q, :tag_ids_in)&.include?(32) %>
+        #<%= @tag[31]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 33, params.dig(:q, :tag_ids_in)&.include?(33) %>
+        #<%= @tag[32]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 34, params.dig(:q, :tag_ids_in)&.include?(34) %>
+        #<%= @tag[33]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 35, params.dig(:q, :tag_ids_in)&.include?(35) %>
+        #<%= @tag[34]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 36, params.dig(:q, :tag_ids_in)&.include?(36) %>
+        #<%= @tag[35]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 37, params.dig(:q, :tag_ids_in)&.include?(37) %>
+        #<%= @tag[36]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 38, params.dig(:q, :tag_ids_in)&.include?(38) %>
+        #<%= @tag[37]['name'] %>
+        </li>
+        <li class="taglisti">
+        <%= check_box_tag "q[tag_ids_in][]", 14, params.dig(:q, :tag_ids_in)&.include?(14) %>
+        #<%= @tag[13]['name'] %>
+        </li>
+    </ul>
+    </div>
+  </div>
+  <%= hidden_field_tag :'latitude', id: "latitude" %>
+  <%= hidden_field_tag :'longitude', id: "longitude" %>
+
+  <%= button_tag type: "button", onclick: "getLocation()", id: "searchButton" do %>
+  <i class="fa-solid fa-magnifying-glass"></i>&ensp;検索する！
+  <% end %>
+<% end %>
+
+
+<script>
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+function showPosition(position) {
+    $.ajax({
+        type: 'GET',
+        url: `https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&sensor=true&key=<%= ENV['MAP_API_KEY'] %>&language=en`,
+    }).then(function(response){
+        var lat = Number(response.results[0].geometry.location.lat);
+        var lng = Number(response.results[0].geometry.location.lng);
+
+        // フォームに位置情報を反映させる
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+
+        // フォームをサブミットする
+        document.getElementById('searchForm').submit();
+    });
+}
+</script>
+
+    document.getElementById('clearCanvas').addEventListener('click', function() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Optionally, you can also save the cleared state to the database
+      document.getElementById('canvas_data').value = '';
+      document.getElementById('canvasForm').submit();
+    });

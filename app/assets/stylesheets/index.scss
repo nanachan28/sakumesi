@@ -1,0 +1,153 @@
+
+
+.keyvisual {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: white;
+}
+.keyvisual_inner {
+    display: flex;
+    animation: 30s linear infinite xScroll;
+}
+@keyframes xScroll {
+    0%     { transform: translateX(0);}
+    100% { transform: translateX(-4000px);} /* .x-scroll_block 1つ分の幅だけ動かす */
+}
+.keyvisual_block {
+    display: flex;
+    width: 4000px; /* (320px + 20px) + 5 */
+}
+
+.keyvisual_item {
+    z-index: 10;
+    opacity: 0.6;
+    width: 500px;
+    height: 400px;
+}
+
+
+.maintext {
+    white-space: nowrap;
+    z-index: 11;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    -webkit-text-stroke: 2.2px #000;
+    font-size: 55px;
+}
+
+.subtext {
+    z-index: 11;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    font-size: 30px;
+}
+
+.topmain{
+    width: 90%;
+    margin: auto;
+    background-color: white;
+}
+
+h3 {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.firstvisitor {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.searchfield{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.freeword {
+    display: flex;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.tag {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taglabel{
+    flex-shrink: 0;
+}
+
+.taggenre{
+    margin-left: 27px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.taglistu {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    width: 765px;
+    margin-left: 20px;
+}
+.taglisti {
+    margin: 7px 14px;
+    }
+
+input[type="checkbox"] {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #2c2c2c;
+  background-color:white;
+  border-radius: 2px;
+  vertical-align: -1px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+input[type="checkbox"]:checked:before {
+  position: absolute;
+  top: -8px;
+  left: 2px;
+  transform: rotate(50deg);
+  width: 7px;
+  height: 15px;
+  border-right: 4px solid orange;
+  border-bottom: 4px solid orange;
+  content: '';
+}
+
+input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+#searchButton {
+    width: 200px;
+    height: 40px;
+    font-size: 22px;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
+    margin-top: 25px;
+    background: rgb(246, 177, 50);
+    padding: 4px;
+    border-radius: 3px;
+    border-width: 1.5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+

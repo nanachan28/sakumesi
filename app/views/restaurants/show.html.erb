@@ -1,0 +1,119 @@
+<%= stylesheet_link_tag 'show', :media => "all" %>
+<div class="restaurantinfo">
+<h1 style="font-size:45px"><%= @restaurant.name %>
+    <% if user_signed_in? %>
+      <% if current_user.status == "false" %>
+        <% if current_user.already_bookmarked?(@restaurant) %>
+          <%= link_to restaurant_bookmark_path(@restaurant), method: :delete do %>
+            <i class="fa-solid fa-star fa-xs" style="color:#FAE013;"></i>
+          <% end %>
+        <% else %>
+          <%= link_to restaurant_bookmarks_path(@restaurant), method: :post do %>
+            <i class="fa-solid fa-star fa-xs" style="color:#cecece;"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %></h1>
+<p class="abouttext"><%= @restaurant.about %></p>
+<% @restaurant.tags.each do |tag| %>
+    <span class="restauranttag">#<%= tag.name %></span>
+<% end %>
+    <% unless user_signed_in? %>
+      <br><p class="indicate"><i class="fa-solid fa-circle-exclamation" style="color:orange;"></i> ブックマーク・コメント機能を使うには<b><%= link_to "ログイン", new_user_session_path %></b>してください。</p>
+    <% end %><br>
+
+<%= image_tag @restaurant.image_url, height: 300, 
+    class: "mainimage", style: "object-fit: contain;" if @restaurant.image? %>
+<div class="detail">
+  <div class="basic">
+  <p class="detailstitle">店舗基本情報</p>
+  <table class="basictable">
+  <tr><td align="center" width="102" style="background-color: rgb(239, 239, 239)">ジャンル</td><td style="background-color: rgb(239, 239, 239)"><%= @restaurant.genre %></td></tr>
+  <tr><td align="center" rowspan=2 style="background-color: rgb(249, 249, 249)">住所</td><td style="border-bottom-style:hidden;padding-bottom:0px;background-color: rgb(249, 249, 249)">〒<%= @restaurant.addresscode %></td></tr>
+  <tr><td style="padding-top:0px;background-color: rgb(249, 249, 249)"><%= @restaurant.address %></td></tr>
+  <tr><td align="center" rowspan=2 style="background-color: rgb(239, 239, 239)">Map</td><td style="border-bottom-style:hidden;padding-bottom:0px;background-color: rgb(239, 239, 239);"><%= link_to @restaurant.mapurl, @restaurant.mapurl %></td></tr>
+
+  <tr><td style="background-color: rgb(239, 239, 239)"><div id="map" style="height: 270px; width: 360px;"></div>
+
+  <script type="text/javascript">
+    function initMap() {
+      var test ={lat: <%= @restaurant.latitude %>, lng: <%= @restaurant.longitude %>};
+      var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 15, 
+              center: test
+              });
+      var transitLayer = new google.maps.TransitLayer();
+      transitLayer.setMap(map);
+
+      var contentString = '住所：<%= @restaurant.address %>';
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      var marker = new google.maps.Marker({
+                  position:test,
+                  map: map,
+                  title: contentString
+                  });
+
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API_KEY'] %>&libraries=places&callback=initMap" async defer></script></td></tr>
+
+  <tr><td align="center" style="background-color: rgb(249, 249, 249)">営業時間</td><td style="background-color: rgb(249, 249, 249)"><%= l @restaurant.opentime %>～<%= l @restaurant.endtime %></td><tr>
+  <tr><td align="center" style="background-color: rgb(239, 239, 239)">定休日</td><td style="background-color: rgb(239, 239, 239)">
+  <%  dayoff_columns.each_with_index do |day,i| %>
+    <% if @restaurant[day] == true %>
+      <a><%= ["月曜日","火曜日","水曜日","木曜日","金曜日","土曜日","日曜日"][i] %></a>
+    <% end %>
+  <% end %></td></tr>
+  <tr><td align="center" style="background-color: rgb(249, 249, 249)">席タイプ</td><td style="background-color: rgb(249, 249, 249)"><%= @restaurant.seattype %></td></tr>
+  <tr><td align="center" style="background-color: rgb(239, 239, 239)">決済方法</td><td style="background-color: rgb(239, 239, 239)"><%= @restaurant.pay %></td></tr>
+  <tr><td align="center" style="background-color: rgb(249, 249, 249)">電話番号</td><td style="background-color: rgb(249, 249, 249)"><%= @restaurant.phone %></td></tr>
+  <tr><td align="center" style="border-bottom-style:hidden;padding-bottom:0px;background-color: rgb(239, 239, 239)">ウェブサイト</td><td rowspan=2 style="background-color: rgb(239, 239, 239)"><%= @restaurant.website %></td></tr>
+  <tr><td align="center" style="padding-top:0px;background-color: rgb(239, 239, 239)">SNS</td></tr>
+  </table>
+  </div>
+  <div class="menuwhatsnew">
+  <p class="detailstitle">メニュー</p>
+  <%= image_tag @restaurant.menufile_url, width: 300, height: 300, 
+    class: "mainimage", style: "object-fit: contain;" if @restaurant.menufile? %>
+  <p class="detailstitle">最新情報</p>
+  <%= @restaurant.whatsnew %>
+  </div>
+  </div>
+
+
+<div class="comment-wrapper">
+  <p class="detailstitle">コメント(<%= @comments.count %>件)</p>
+  <% @comments.each do |c| %>
+    <ul class="commentlistu">
+      <li class="commentlisti">
+        <%= image_tag c.image_url, size: "150x120" if c.image? %>
+        <p><%= c.content %></p>
+        <p class="commenttime"><%= c.created_at.strftime('%Y/%m/%d %H:%M') %></p>
+      </li>
+    </ul>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <p class="newcomment">新規コメント投稿</p>
+    <%= form_with(model: [@restaurant, @comment], local: true) do |f| %>
+      <%= f.label :content, "コメント", class: "commentlabel" %>
+      <%= f.text_area :content, size: "50x5" %><br>
+      <%= f.label :image, "画像添付", class: "commentlabel" %>
+      <%= f.file_field :image %><br>
+      <div class="commentsubmit">
+      <%= button_tag type: "submit", class: "commentbutton" do %>
+        <i class="far fa-comments"></i>&ensp;コメントする
+      <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to "前のページに戻る", :back %>
+</div>

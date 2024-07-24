@@ -1,0 +1,98 @@
+<%= stylesheet_link_tag 'mypage', :media => "all" %>
+<% if current_user.status == "true" %>
+<div class="mypagecontent">
+<h1 style="display:inline" class="mypagetitle"><%= @user.name %>様の管理ページ</h1>
+
+<% if current_user.id == @user.id %>
+  <%= link_to "ユーザー情報編集", edit_user_registration_path %><br>
+<% end %>
+
+<div class="owningtitle">
+<h2>登録済み店舗(<%= @user.restaurants.count %>件)</h2>
+<%= button_to "新規店舗登録", new_restaurant_path, method: :get, class: "newrestaurantbutton" %>
+</div>
+<% @user.restaurants.each do |t| %>
+  <ul class="mypagelistu">
+  <li class="mypagelisti">
+    <%= image_tag t.image_url, size: "150x120" if t.image? %>
+    <div class="owningtexts">
+      <p class="owningname"><%= link_to t.name, restaurant_path(t.id) %></p>
+      <div class="owningfunction">
+        <%= link_to "編集", edit_restaurant_path(t.id) %>
+        <%= button_to "削除", restaurant_path(t.id), method: :delete, class:"restaurantdelete" %>
+      </div>
+    </div>
+  </li>
+  </ul>
+<% end %>
+
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: "logoutbottun" %>
+
+<%= link_to "トップページに戻る", restaurants_path, style: "margin-left: 30px;" %>
+</div>
+<% else %>
+<div class="mypagecontent">
+<h1 style="display:inline" class="mypagetitle"><%= @user.name %>さんのマイページ</h1>
+
+<% if current_user.id == @user.id %>
+  <%= link_to "ユーザー情報編集", edit_user_registration_path %>
+<% end %>
+
+<h2 style="margin-left: 30px;" >投稿済みコメント一覧(<%= @user.commented_restaurants.count %>件)</h2>
+<% @user.commented_restaurants.each do |restaurant| %>
+  <ul class="commentlistu">
+  <li class="commentlisti">
+    <% restaurant.comments.where(user_id: current_user.id).each do |comment| %>
+      <div class="commentdetails">
+      <%= image_tag comment.image_url, size: "150x120" if comment.image? %>
+      <div class="commenttexts">
+      <div>
+      <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %><br>
+    「<%= comment.content %>」
+    (<%= link_to restaurant.name, restaurant_path(restaurant.id) %>)&nbsp;
+    <% if current_user.already_bookmarked?(restaurant) %>
+        <%= link_to restaurant_bookmark_path(id: restaurant.id, restaurant_id: restaurant.id), method: :delete do %>
+            <i class="fa-solid fa-star" style="color:#FAE013;"></i>
+        <% end %>
+    <% else %>
+        <%= link_to restaurant_bookmarks_path(id: restaurant.id, restaurant_id: restaurant.id), method: :post do %>
+            <i class="fa-solid fa-star" style="color:#cecece;"></i>
+        <% end %>
+    <% end %></div>
+    <%= link_to "このコメントを削除", restaurant_comment_path(restaurant.id, comment.id), method: :delete, data: {confirm: "本当に削除しますか？" }, class: "commentdelete" %>
+    <% end %>
+    </div>
+    </div>
+    </li>
+  </ul>
+<% end %>
+
+<h2 style="margin-left: 30px;" >ブックマーク済み店舗一覧(<%= @user.bookmarked_restaurants.count %>件)</h2>
+<% @user.bookmarked_restaurants.each do |restaurant| %>
+  <ul class="mypagelistu">
+  <li class="mypagelisti">
+  <%= image_tag restaurant.image_url, size: "150x120" if restaurant.image? %>
+  <div class="texts">
+  <%= link_to restaurant.name, restaurant_path(restaurant.id),class: "restaurantname" %>
+  <% if current_user.already_bookmarked?(restaurant) %>
+    <%= link_to restaurant_bookmark_path(id: restaurant.id, restaurant_id: restaurant.id), method: :delete do %>
+      <i class="fa-solid fa-star size" style="color:#FAE013"></i>
+    <% end %>
+  <% end %><br>
+  <%= restaurant.about %>
+  <div class="restauranttaglist">
+  <% restaurant.tags.each do |tag| %>
+    <span class="restauranttag">#<%= tag.name %></span>
+  <% end %>
+  </div>
+  </div>
+  </li>
+  </ul>
+<% end %>
+
+
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: "logoutbottun" %>
+
+<%= link_to "トップページに戻る", restaurants_path, style: "margin-left: 30px;" %>
+</div>
+<% end %>

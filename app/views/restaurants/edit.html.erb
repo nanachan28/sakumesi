@@ -1,0 +1,167 @@
+<%= stylesheet_link_tag 'new', :media => "all" %>
+<div class="newrestaurant">
+<h3>店舗情報編集</h3>
+<%= form_for @restaurant do |f| %>
+<table class="newtable">
+  <tr>
+    <td>
+    <%= f.label :name, "店舗名称" %>
+    </td>
+    <td>
+    <%= f.text_field :name, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :genre, "ジャンル" %>
+    </td>
+    <td>
+    <%= f.text_field :genre, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :addresscode, "郵便番号" %>
+    </td>
+    <td>
+    〒<%= f.text_field :addresscode, :size => 28 %>
+    </td>
+  </tr>
+
+
+  <tr>
+    <td>
+    <%= f.label :address, "住所" %>
+    </td>
+    <td>
+    <%= f.text_field :address, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :mapurl, "Google MapsのURL" %>
+    </td>
+    <td>
+    <%= f.text_field :mapurl, :size => 30 %>
+    </td>
+  </tr>
+
+
+  <tr>
+    <td>
+    <%= f.label :about, "店舗概要"  %>
+    </td>
+    <td>
+    <%= f.text_area :about, :size => "32x2" %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :image, "店舗画像" %>
+    </td>
+    <td>
+    <%= f.file_field :image %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :opentime, "営業時間" %>
+    </td>
+    <td>
+    <%= f.time_field :opentime, :size => 30 %>
+    <%= f.label :endtime, "～", class: "timelabel" %>
+    <%= f.time_field :endtime, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    定休日
+    </td>
+    <td>
+        <% dayoff_columns.each_with_index do |day,i| %>
+            <%= f.check_box day.to_sym , {} ,"true", "false" %>
+            <%= f.label day.to_sym , ["月","火","水","木","金","土","日"][i], class: "newtext" %>
+        <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :seattype, "席タイプ" %>
+    </td>
+    <td>
+    <%= f.radio_button :seattype, "カウンターのみ", style: "border: 1.5px solid #000" %><p class="newtext">カウンターのみ</p><%= f.radio_button :seattype, "テーブルのみ" %><p class="newtext">テーブルのみ</p><%= f.radio_button :seattype, "カウンターとテーブル" %><p class="newtext">両方</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :pay, "決済方法" %>
+    </td>
+    <td>
+    <%= f.text_field :pay, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :phone, "電話番号" %>
+    </td>
+    <td>
+    <%= f.text_field :phone, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :website, "ウェブサイト・SNS" %>
+    </td>
+    <td>
+    <%= f.text_field :website, :size => 30 %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :menufile, "メニュー(画像)" %>
+    </td>
+    <td>
+    <%= f.file_field :menufile, :multiple => true %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <%= f.label :whatsnew, "最新情報"  %>
+    </td>
+    <td>
+    <%= f.text_area :whatsnew, :size => "32x2" %>
+    </td>
+  </tr>
+</table>
+
+タグ設定
+  <div class='tag' style="justify-content:center">
+      <ul class="taglistu">
+        <%= f.collection_check_boxes(:tag_ids, Tag.all, :id, :name) do |tag| %>
+            <li class='taglisti'>
+                <%= tag.label class: 'form-check-label' do %>
+                    <%= tag.check_box class: 'form-check-input' %>
+                    <%= tag.text %>
+                <% end %>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+
+  <div class="actions">
+  <%= f.submit "編集完了", class: "button" %></div>
+  <%= link_to "戻る", :back %>
+<% end %>
+</div>

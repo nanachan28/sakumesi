@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sakumesi</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/7c59468f43.js"  crossorigin="anonymous"></script>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#>= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <header>
+      <%= link_to image_tag("headerlogo.png", class: 'header-logo'), restaurants_path %>
+      <div class="header-list">
+      <ul>
+        <li><%= link_to "Home", restaurants_path %></li>
+        <li><%= link_to "About",restaurants_about_path %></li>
+        <li><% if user_signed_in? %>
+            <%= link_to "My page", "/users/#{current_user.id}" %>
+            <%else%><%= link_to "Log in", new_user_session_path %><%end%></li>
+      </ul>
+      </div>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+    <footer>
+      <p>Copyright © Nana All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

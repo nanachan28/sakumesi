@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  genre: MyString
+  address: MyString
+  about: MyText
+  image: MyString
+  opentime: 2024-03-02 16:10:39
+  phone: MyString
+  website: MyString
+  whatsnew: MyText
+
+two:
+  name: MyString
+  genre: MyString
+  address: MyString
+  about: MyText
+  image: MyString
+  opentime: 2024-03-02 16:10:39
+  phone: MyString
+  website: MyString
+  whatsnew: MyText

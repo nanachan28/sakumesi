@@ -1,0 +1,91 @@
+.restaurantinfo{
+    margin: 15px 30px;
+    font-size: 17px;
+}
+
+.abouttext{
+    font-size: large;
+}
+
+.mainimage{
+    margin-top: 20px;
+}
+
+#map{
+    margin-bottom: 10px;
+}
+
+.detail{
+    margin: 20px 0px;
+    display: flex;
+}
+
+.basic{
+    width: 50%;
+    margin: 0px 10px;
+}
+
+.detailstitle{
+    font-size: larger;
+    font-weight: bold;
+}
+
+.basictable{
+    border-collapse: collapse;
+}
+
+
+.basictable td{
+    padding: 2px 5px;
+    border-right: solid white 2px;
+}
+
+.menuwhatsnew{
+    width:50%;
+    margin: 0px 10px;
+}
+
+.comment-wrapper{
+    margin: 30px 0px;
+}
+
+.comment-wrapper ul{
+    margin-left: 30px;
+}
+
+.forliststyle{
+    display:list-item
+}
+
+.commenttime{
+    font-size: small;
+}
+
+.newcomment{
+    font-weight: bold;
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+.commentlabel{
+    vertical-align: top;
+}
+
+.commentsubmit{
+    width: 420.5px;
+    text-align: center;
+}
+
+.commentbutton{
+    margin-top: 25px ;
+    width: 150px;
+    height: 30px;
+    font-size: 15px;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
+    background: rgb(246, 177, 50);
+    padding: 4px;
+    border-radius: 3px;
+    border-width: 1.5px;
+    cursor: pointer;
+}
